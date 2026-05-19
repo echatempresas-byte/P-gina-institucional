@@ -1,6 +1,6 @@
 {
-  "name": "Página de captura",
+  "name": "eChat Empresas",
   "description": "Página de captura profissional para empresas com WhatsApp Business banido. Recuperação e orientação estratégica.",
   "requestFramePermissions": [],
-  "majorCapabilities": []
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }

@@ -28,7 +28,17 @@ export default function App() {
 
   const itemVariants = {
     hidden: { y: 20, opacity: 0 },
-    visible: { y: 0, opacity: 1 }
+    visible: { y: 0, opacity: 1 },
+    transition: { duration: 0.5 }
+  };
+
+  const revealVariants = {
+    hidden: { y: 30, opacity: 0 },
+    visible: { 
+      y: 0, 
+      opacity: 1,
+      transition: { duration: 0.6, ease: "easeOut" }
+    }
   };
 
   const faqData = [
@@ -145,45 +155,50 @@ export default function App() {
       </header>
 
       {/* 2. BLOCO DE IDENTIFICAÇÃO (conexão) */}
-      <section className="py-20 bg-slate-50">
+      <section className="py-20 bg-slate-50 overflow-hidden">
         <div className="container mx-auto px-6">
           <div className="max-w-5xl mx-auto grid md:grid-cols-2 gap-12 items-center">
             <motion.div 
-              initial={{ x: -30, opacity: 0 }}
-              whileInView={{ x: 0, opacity: 1 }}
-              viewport={{ once: true }}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: "-100px" }}
+              variants={containerVariants}
               className="space-y-6"
             >
-              <h2 className="text-3xl font-bold tracking-tight">
+              <motion.h2 variants={itemVariants} className="text-3xl font-bold tracking-tight">
                 Se o seu WhatsApp foi banido, você já percebeu o impacto real:
-              </h2>
-              <ul className="space-y-4">
+              </motion.h2>
+              <motion.ul variants={containerVariants} className="space-y-4">
                 {[
                   { text: "Clientes sem resposta e frustrados", icon: Clock },
                   { text: "Conversas de vendas importantes interrompidas", icon: MessageCircle },
                   { text: "Sua operação comercial totalmente pausada", icon: Zap }
                 ].map((item, i) => (
-                  <li key={i} className="flex items-start gap-4 p-4 bg-white rounded-xl border border-slate-200">
+                  <motion.li key={i} variants={itemVariants} className="flex items-start gap-4 p-4 bg-white rounded-xl border border-slate-200 shadow-sm hover:shadow-md transition-shadow">
                     <div className="p-2 bg-red-50 rounded-lg text-red-500 shrink-0">
                       <item.icon size={20} />
                     </div>
                     <p className="text-slate-900 font-medium">{item.text}</p>
-                  </li>
+                  </motion.li>
                 ))}
-              </ul>
-              <p className="text-lg text-slate-500 font-medium italic border-l-4 border-meta-pink pl-4 mt-8">
+              </motion.ul>
+              <motion.p variants={itemVariants} className="text-lg text-slate-500 font-medium italic border-l-4 border-meta-pink pl-4 mt-8">
                 Em muitos casos de banimento empresarial, cada hora de inatividade faz diferença no seu faturamento.
-              </p>
+              </motion.p>
             </motion.div>
 
             <motion.div 
               initial={{ x: 30, opacity: 0 }}
               whileInView={{ x: 0, opacity: 1 }}
-              viewport={{ once: true }}
+              viewport={{ once: true, margin: "-50px" }}
               className="relative p-8 flex justify-center items-center"
             >
               {/* Custom Phone Mockup for Ban Screen */}
-              <div className="relative w-[280px] h-[580px] bg-slate-900 rounded-[3rem] border-[8px] border-slate-800 shadow-2xl overflow-hidden">
+              <motion.div 
+                animate={{ y: [0, -10, 0] }}
+                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                className="relative w-[280px] h-[580px] bg-slate-900 rounded-[3rem] border-[8px] border-slate-800 shadow-2xl overflow-hidden"
+              >
                 {/* Speaker/Notch */}
                 <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-6 bg-slate-800 rounded-b-2xl z-20" />
                 
@@ -224,7 +239,7 @@ export default function App() {
                     </motion.div>
                   </div>
                 </div>
-              </div>
+              </motion.div>
 
               {/* Decorative elements around phone */}
               <div className="absolute -z-10 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-72 h-72 gradient-meta opacity-20 blur-3xl animate-pulse" />
@@ -234,12 +249,13 @@ export default function App() {
       </section>
 
       {/* 3. BLOCO DE AUTORIDADE (sem exagero) */}
-      <section className="py-24 bg-white">
+      <section className="py-24 bg-white overflow-hidden">
         <div className="container mx-auto px-6 text-center max-w-3xl">
           <motion.div
-            initial={{ y: 20, opacity: 0 }}
-            whileInView={{ y: 0, opacity: 1 }}
-            viewport={{ once: true }}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-100px" }}
+            variants={revealVariants}
           >
             <ShieldCheck className="mx-auto text-meta-purple mb-6" size={48} />
             <h2 className="text-3xl font-bold mb-6">Expertise Técnica e Estratégica</h2>
@@ -258,9 +274,22 @@ export default function App() {
         </div>
 
         <div className="container mx-auto px-6 relative z-10">
-          <h2 className="text-4xl font-bold text-center mb-16">Como podemos te ajudar</h2>
+          <motion.h2 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-4xl font-bold text-center mb-16"
+          >
+            Como podemos te ajudar
+          </motion.h2>
           
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <motion.div 
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-100px" }}
+            variants={containerVariants}
+            className="grid md:grid-cols-2 lg:grid-cols-4 gap-8"
+          >
             {[
               { title: "Análise de Motivo", desc: "Identificamos o real gatilho que causou o bloqueio da sua conta.", icon: Briefcase },
               { title: "Orientação Meta", desc: "Consultoria baseada estritamente nas regras oficiais da Meta.", icon: ShieldCheck },
@@ -269,10 +298,7 @@ export default function App() {
             ].map((item, i) => (
               <motion.div 
                 key={i}
-                initial={{ y: 20, opacity: 0 }}
-                whileInView={{ y: 0, opacity: 1 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.1 }}
+                variants={itemVariants}
                 className="bg-white/5 border border-white/10 p-8 rounded-2xl hover:bg-white/10 transition-colors"
               >
                 <div className="w-12 h-12 bg-gradient-meta rounded-xl flex items-center justify-center mb-6">
@@ -282,14 +308,20 @@ export default function App() {
                 <p className="text-slate-400">{item.desc}</p>
               </motion.div>
             ))}
-          </div>
+          </motion.div>
         </div>
       </section>
 
       {/* 5 & 8. CTA PRINCIPAL / REPETIÇÃO */}
-      <section className="py-24 bg-white text-center">
+      <section className="py-24 bg-white text-center overflow-hidden">
         <div className="container mx-auto px-6">
-          <div className="max-w-3xl mx-auto bg-slate-50 p-10 md:p-16 rounded-[40px] border border-slate-200">
+          <motion.div 
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-100px" }}
+            variants={revealVariants}
+            className="max-w-3xl mx-auto bg-slate-50 p-10 md:p-16 rounded-[40px] border border-slate-200 shadow-sm"
+          >
             <h2 className="text-3xl md:text-4xl font-bold mb-6">Se o seu WhatsApp é importante para o seu negócio, não vale a pena esperar.</h2>
             <p className="text-xl text-slate-500 mb-10">Recupere sua comunicação e normalize suas vendas com ajuda profissional.</p>
             
@@ -310,29 +342,35 @@ export default function App() {
               </span>
               Atendimento Imediato
             </p>
-          </div>
+          </motion.div>
         </div>
       </section>
 
       {/* 6. BLOCO DE CONFIANÇA */}
-      <section className="py-20 border-t border-slate-100">
-        <div className="container mx-auto px-6 grid md:grid-cols-3 gap-12 text-center">
-          <div className="space-y-4">
+      <section className="py-20 border-t border-slate-100 overflow-hidden">
+        <motion.div 
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          variants={containerVariants}
+          className="container mx-auto px-6 grid md:grid-cols-3 gap-12 text-center"
+        >
+          <motion.div variants={itemVariants} className="space-y-4">
             <div className="text-meta-pink flex justify-center"><CheckCircle2 size={40} /></div>
             <h3 className="font-bold text-xl">Atendimento Direto</h3>
             <p className="text-slate-500">Sem burocracia ou intermediários. Você fala direto com quem resolve.</p>
-          </div>
-          <div className="space-y-4">
+          </motion.div>
+          <motion.div variants={itemVariants} className="space-y-4">
             <div className="text-meta-purple flex justify-center"><CheckCircle2 size={40} /></div>
             <h3 className="font-bold text-xl">Sem Promessas Irreais</h3>
             <p className="text-slate-500">Trabalhamos com fatos e política da plataforma, sem "milagres".</p>
-          </div>
-          <div className="space-y-4">
+          </motion.div>
+          <motion.div variants={itemVariants} className="space-y-4">
             <div className="text-meta-blue flex justify-center"><CheckCircle2 size={40} /></div>
             <h3 className="font-bold text-xl">Sem Riscos</h3>
             <p className="text-slate-500">Estratégias que protegem o seu número ao invés de expô-lo ainda mais.</p>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       </section>
 
       {/* PERGUNTAS FREQUENTES */}
